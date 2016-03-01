@@ -1,0 +1,70 @@
+entity Location {
+  id Long,
+  streetAddress String,
+  postalCode String,
+  city String,
+  stateProvince String,
+  lat BigDecimal,
+  lng BigDecimal
+}
+entity Service {
+  id Long,
+  name String
+}
+entity Image {
+  id Long,
+  image ImageBlob
+} 
+entity Message {
+  id Long,
+  text String,
+  time LocalDate
+}
+entity Favorite {
+  id Long,
+  like Boolean
+}
+entity Space {
+  id Long,
+  name String,
+  description String,
+  price Double,
+  personMax Integer,
+}
+entity Review {
+  id Long,
+  text String,
+  time LocalDate
+}
+relationship OneToOne {
+  Space{location} to Location
+}
+relationship ManyToMany {
+  Space{service(name)} to Service{space}
+}
+relationship OneToMany {
+  Space{image} to Image{space(name)}
+}
+relationship OneToMany {
+  Space{favorite} to Favorite{space(name)}
+}
+relationship OneToMany {
+  User{favorite} to Favorite{user(email)}
+}
+relationship OneToMany {
+  Space{message} to Message{space(name)}
+}
+relationship OneToMany {
+  User{message} to Message{user(email)}
+}
+relationship OneToMany {
+  User{space} to Space{user(email)}
+}
+relationship OneToMany {
+  Space{review} to Review {space(name)}
+}
+relationship OneToMany {
+  User{review} to Review {user(email)}
+}
+
+paginate Service, Image, Message, Favorite, Location, Space with pagination

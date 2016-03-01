@@ -1,0 +1,82 @@
+{
+  "relationships": [
+    {
+      "relationshipId": 1,
+      "relationshipName": "location",
+      "otherEntityName": "location",
+      "relationshipType": "one-to-one",
+      "otherEntityField": "id",
+      "ownerSide": true,
+      "otherEntityRelationshipName": "space"
+    },
+    {
+      "relationshipId": 2,
+      "relationshipName": "service",
+      "otherEntityName": "service",
+      "relationshipType": "many-to-many",
+      "otherEntityField": "name",
+      "ownerSide": true
+    },
+    {
+      "relationshipId": 3,
+      "relationshipName": "image",
+      "otherEntityName": "image",
+      "relationshipType": "one-to-many",
+      "otherEntityRelationshipName": "space"
+    },
+    {
+      "relationshipId": 4,
+      "relationshipName": "favorite",
+      "otherEntityName": "favorite",
+      "relationshipType": "one-to-many",
+      "otherEntityRelationshipName": "space"
+    },
+    {
+      "relationshipId": 5,
+      "relationshipName": "message",
+      "otherEntityName": "message",
+      "relationshipType": "one-to-many",
+      "otherEntityRelationshipName": "space"
+    },
+    {
+      "relationshipId": 6,
+      "relationshipName": "review",
+      "otherEntityName": "review",
+      "relationshipType": "one-to-many",
+      "otherEntityRelationshipName": "space"
+    },
+    {
+      "relationshipId": 7,
+      "relationshipName": "user",
+      "otherEntityName": "user",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "email"
+    }
+  ],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "price",
+      "fieldType": "Double"
+    },
+    {
+      "fieldId": 4,
+      "fieldName": "personMax",
+      "fieldType": "Integer"
+    }
+  ],
+  "changelogDate": "20160301190024",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "no"
+}

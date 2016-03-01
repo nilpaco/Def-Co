@@ -1,0 +1,32 @@
+{
+    "definitivoApp": {
+        "space" : {
+            "home": {
+                "title": "Spaces",
+                "createLabel": "Create a new Space",
+                "createOrEditLabel": "Create or edit a Space",
+                "search": "Search for Space"
+            },
+            "created": "A new Space is created with identifier {{ param }}",
+            "updated": "A Space is updated with identifier {{ param }}",
+            "deleted": "A Space is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Space {{ id }}?"
+            },
+            "detail": {
+                "title": "Space"
+            },
+            "name": "Name",
+            "description": "Description",
+            "price": "Price",
+            "personMax": "PersonMax",
+            "location": "Location",
+            "service": "Service",
+            "image": "Image",
+            "favorite": "Favorite",
+            "message": "Message",
+            "review": "Review",
+            "user": "User"
+        }
+    }
+}

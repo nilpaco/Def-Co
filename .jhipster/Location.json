@@ -1,0 +1,39 @@
+{
+  "relationships": [],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "streetAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "postalCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "city",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 4,
+      "fieldName": "stateProvince",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 5,
+      "fieldName": "lat",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldId": 6,
+      "fieldName": "lng",
+      "fieldType": "BigDecimal"
+    }
+  ],
+  "changelogDate": "20160301190019",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "no"
+}

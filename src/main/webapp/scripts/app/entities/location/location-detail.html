@@ -1,0 +1,70 @@
+
+<div>
+    <h2><span translate="definitivoApp.location.detail.title">Location</span> {{location.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.location.streetAddress">StreetAddress</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{location.streetAddress}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.location.postalCode">PostalCode</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{location.postalCode}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.location.city">City</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{location.city}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.location.stateProvince">StateProvince</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{location.stateProvince}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.location.lat">Lat</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{location.lat}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.location.lng">Lng</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{location.lng}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

@@ -1,0 +1,80 @@
+
+<div>
+    <h2><span translate="definitivoApp.space.detail.title">Space</span> {{space.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.space.name">Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{space.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.space.description">Description</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{space.description}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.space.price">Price</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{space.price}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.space.personMax">PersonMax</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{space.personMax}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.space.location">location</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="location.detail({id:space.location.id})">{{space.location.id}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.space.service">service</span>
+                </td>
+                <td>
+                    <span ng-repeat="service in space.services">
+                        <a class="form-control-static" ui-sref="service.detail({id: {{service.id}}})">{{service.name}}</a>{{$last ? '' : ', '}}
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="definitivoApp.space.user">user</span>
+                </td>
+                <td>
+                    {{space.user.email}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

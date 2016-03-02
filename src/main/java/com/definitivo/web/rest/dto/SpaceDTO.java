@@ -8,15 +8,15 @@ import com.definitivo.domain.Space;
 
 
 public class SpaceDTO {
-    private Space song;
+    private Space space;
     private Boolean liked;
 
-    public Space getSong() {
-        return song;
+    public Space getSpace() {
+        return space;
     }
 
-    public void setSong(Space song) {
-        this.song = song;
+    public void setSpace(Space space) {
+        this.space = space;
     }
 
     public Boolean getLiked() {
@@ -26,5 +26,4 @@ public class SpaceDTO {
     public void setLiked(Boolean liked) {
         this.liked = liked;
     }
-
 }

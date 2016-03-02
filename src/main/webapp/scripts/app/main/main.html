@@ -1,7 +1,7 @@
 <div ng-cloak>
     <div>
         <h2>Spaces</h2>
-        <jh-alert></jh-alert>
+        <toaster-container toaster-options="{'time-out': 2000, 'close-button':true, 'position-class': 'toast-bottom-right'}"></toaster-container>
         <div class="container-fluid">
         </div>
         <br/>
@@ -10,27 +10,32 @@
                 <thead>
                 </thead>
                 <tbody>
-                <tr ng-repeat="space in spaces track by space.id">
-                    <td><a ui-sref="space.detail({id:space.id})">{{space.id}}</a></td>
-                    <td>{{space.name}}</td>
-                    <td>{{space.description}}</td>
-                    <td>{{space.price}}</td>
-                    <td>{{space.personMax}}</td>
+                <tr ng-repeat="spaceDTO in spaces">
+                    <td><a ui-sref="space.detail({id:spaceDTO.space.id})">{{spaceDTO.space.id}}</a></td>
+                    <td>{{spaceDTO.space.name}}</td>
+                    <td>{{spaceDTO.space.description}}</td>
+                    <td>{{spaceDTO.space.price}}</td>
+                    <td>{{spaceDTO.space.personMax}}</td>
                     <td>
-                        <a ui-sref="location.detail({id:space.location.id})">{{space.location.id}}</a>
+                        <a ui-sref="location.detail({id:spaceDTO.space.location.id})">{{spaceDTO.space.location.id}}</a>
                     </td>
                     <td>
-                        {{space.user.email}}
+                        {{spaceDTO.space.user.email}}
                     </td>
                     <td class="text-right">
-                        <button ng-click="like(space.id)" class="btn btn-info" aria-label="More">
-                            Like
+                        <button ng-click="like(spaceDTO.space.id)" class="btn btn-info" aria-label="More">
+                            <i ng-class="{true: 'fav2', false: 'fav'}[spaceDTO.liked == false]" class="glyphicon glyphicon-heart"></i>
                         </button>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <style>
+            .fav{
+                color: red;
+            }
+        </style>
         <div class="text-center">
             <uib-pagination class="pagination-sm" total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pagination>
         </div>

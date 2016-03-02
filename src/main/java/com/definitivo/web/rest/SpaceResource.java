@@ -153,9 +153,9 @@ public class SpaceResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<SpaceDTO>> getSongs(Pageable pageable)
+    public ResponseEntity<List<SpaceDTO>> getSpaces(Pageable pageable)
         throws URISyntaxException {
-        log.debug("REST request to get a page of Songs");
+        log.debug("REST request to get a page of Spaces");
         Page<Space> page = spaceRepository.findAll(pageable);
 
         List<SpaceDTO> listSpaceDTO = new ArrayList<>();
@@ -163,7 +163,7 @@ public class SpaceResource {
         for (Space space : page.getContent()) {
             Favorite favorite = favoriteRepository.findExistUserLiked(space.getId());
             SpaceDTO spaceDTO = new SpaceDTO();
-            spaceDTO.setSong(space);
+            spaceDTO.setSpace(space);
 
             if (favorite == null || favorite.getLiked() == null || !favorite.getLiked()) {
                 spaceDTO.setLiked(false);

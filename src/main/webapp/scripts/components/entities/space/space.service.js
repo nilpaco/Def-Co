@@ -11,6 +11,12 @@ angular.module('definitivoApp')
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': { method:'PUT' },
+            'getUserSpaces': {
+                method: 'GET',
+                isArray: true,
+                url: 'api/spaces/userliked'
+            }
+
         });
     });

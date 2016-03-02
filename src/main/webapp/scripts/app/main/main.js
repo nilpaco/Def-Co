@@ -16,6 +16,9 @@ angular.module('definitivoApp')
                     }
                 },
                 resolve: {
+                    entity: ['$stateParams', 'Space', function($stateParams, Space) {
+                        return Space.query();
+                    }],
                     mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
                         $translatePartialLoader.addPart('main');
                         return $translate.refresh();

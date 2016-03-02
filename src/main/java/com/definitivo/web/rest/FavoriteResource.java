@@ -2,8 +2,13 @@ package com.definitivo.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.definitivo.domain.Favorite;
+import com.definitivo.domain.Space;
+import com.definitivo.domain.User;
 import com.definitivo.repository.FavoriteRepository;
+import com.definitivo.repository.SpaceRepository;
+import com.definitivo.repository.UserRepository;
 import com.definitivo.repository.search.FavoriteSearchRepository;
+import com.definitivo.security.SecurityUtils;
 import com.definitivo.web.rest.util.HeaderUtil;
 import com.definitivo.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -34,13 +39,19 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class FavoriteResource {
 
     private final Logger log = LoggerFactory.getLogger(FavoriteResource.class);
-        
+
     @Inject
     private FavoriteRepository favoriteRepository;
-    
+
     @Inject
     private FavoriteSearchRepository favoriteSearchRepository;
-    
+
+    @Inject
+    private UserRepository userRepository;
+
+    @Inject
+    private SpaceRepository spaceRepository;
+
     /**
      * POST  /favorites -> Create a new favorite.
      */
@@ -89,7 +100,7 @@ public class FavoriteResource {
     public ResponseEntity<List<Favorite>> getAllFavorites(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Favorites");
-        Page<Favorite> page = favoriteRepository.findAll(pageable); 
+        Page<Favorite> page = favoriteRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/favorites");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -139,4 +150,37 @@ public class FavoriteResource {
             .stream(favoriteSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
+
+    @RequestMapping(value = "/favorites/{id}/like",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Favorite> likeSong(@PathVariable Long id) throws URISyntaxException {
+
+        Favorite exist = favoriteRepository.findExistUserLiked(id);
+
+        if(exist != null){
+            if(exist.getLiked() == null || exist.getLiked() == false){
+                exist.setLiked(true);
+            }else{
+                exist.setLiked(false);
+            }
+            return updateFavorite(exist);
+        }
+
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+        Space song = spaceRepository.findOne(id);
+
+        Favorite favorite = new Favorite();
+        favorite.setUser(user);
+        favorite.setSpace(song);
+        favorite.setLiked(true);
+
+        Favorite result = favoriteRepository.save(favorite);
+        return ResponseEntity.created(new URI("/api/favorites/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert("favorite", result.getId().toString()))
+            .body(result);
+    }
+
+
 }

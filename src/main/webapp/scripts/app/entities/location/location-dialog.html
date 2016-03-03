@@ -1,13 +1,24 @@
 
 <form name="editForm" role="form" novalidate ng-submit="save()">
-
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="clear()">&times;</button>
         <h4 class="modal-title" id="myLocationLabel" translate="definitivoApp.location.home.createOrEditLabel">Create or edit a Location</h4>
     </div>
+
     <div class="modal-body">
         <jh-alert-error></jh-alert-error>
+
+        <div
+            angular-google-maps-geocoder placeid="{{ my_place_id }}"
+            output="out"
+            placeholder="Placeholder goes here..."
+            min-length="5"
+            wait-ms="10"></div>
+        <pre>{{ out | json }}</pre>
+
+        <pre>{{out.address_components[0].types[0]}}</pre>
+
         <div class="form-group">
             <label for="id" translate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
@@ -22,19 +33,19 @@
         <div class="form-group">
             <label class="control-label" translate="definitivoApp.location.postalCode" for="field_postalCode">PostalCode</label>
             <input type="text" class="form-control" name="postalCode" id="field_postalCode"
-                    ng-model="location.postalCode"
+                    ng-model="location.postalCode=out.address_components[5].long_name"
                      />
         </div>
         <div class="form-group">
             <label class="control-label" translate="definitivoApp.location.city" for="field_city">City</label>
             <input type="text" class="form-control" name="city" id="field_city"
-                    ng-model="location.city"
+                    ng-model="location.city=out.address_components[1].long_name"
                      />
         </div>
         <div class="form-group">
             <label class="control-label" translate="definitivoApp.location.stateProvince" for="field_stateProvince">StateProvince</label>
             <input type="text" class="form-control" name="stateProvince" id="field_stateProvince"
-                    ng-model="location.stateProvince"
+                    ng-model="location.stateProvince=out.address_components[2].long_name"
                      />
         </div>
         <div class="form-group">

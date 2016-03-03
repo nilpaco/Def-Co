@@ -2,7 +2,7 @@
 
 angular.module('definitivoApp').controller('LocationDialogController',
     ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Location',
-        function($scope, $stateParams, $uibModalInstance, entity, Location) {
+        function($scope, $stateParams, $uibModalInstance, entity, Location, geocoder) {
 
         $scope.location = entity;
         $scope.load = function(id) {
@@ -33,4 +33,15 @@ angular.module('definitivoApp').controller('LocationDialogController',
         $scope.clear = function() {
             $uibModalInstance.dismiss('cancel');
         };
-}]);
+
+            /*$('.callToCtrl').click(asdf);
+            function asdf(){
+                $scope.location = {
+                    streetAddress: $scope.output.address_components[0],
+                    postalCode: null,
+                    city: null,
+                    stateProvince: null,
+                }
+            }*/
+
+        }]);

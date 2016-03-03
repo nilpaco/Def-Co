@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('definitivoApp')
-    .controller('LocationController', function ($scope, $state, Location, LocationSearch, ParseLinks) {
+    .controller('LocationController', function ($scope, $state, Location, LocationSearch, ParseLinks, geocoder) {
 
         $scope.locations = [];
         $scope.predicate = 'id';
@@ -47,4 +47,7 @@ angular.module('definitivoApp')
                 id: null
             };
         };
+
+        $scope.my_place_id = "";
+
     });

@@ -2,7 +2,7 @@
 
 angular.module('definitivoApp').controller('LocationDialogController',
     ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Location',
-        function($scope, $stateParams, $uibModalInstance, entity, Location, geocoder) {
+        function($scope, $stateParams, $uibModalInstance, entity, Location, NgMap) {
 
         $scope.location = entity;
         $scope.load = function(id) {
@@ -34,14 +34,16 @@ angular.module('definitivoApp').controller('LocationDialogController',
             $uibModalInstance.dismiss('cancel');
         };
 
-            /*$('.callToCtrl').click(asdf);
-            function asdf(){
-                $scope.location = {
-                    streetAddress: $scope.output.address_components[0],
-                    postalCode: null,
-                    city: null,
-                    stateProvince: null,
-                }
-            }*/
+            var vm = this;
+            vm.placeChanged = function() {
+                vm.place = this.getPlace();
+                console.log('location', vm.place.geometry.location);
+                vm.map.setCenter(vm.place.geometry.location);
+            }
+            NgMap.getMap().then(function(map) {
+                vm.map = map;
+            });
+
+
 
         }]);

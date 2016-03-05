@@ -40,5 +40,13 @@
             <uib-pagination class="pagination-sm" total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pagination>
         </div>
     </div>
-
+    <div>
+        <ng-map zoom-to-include-markers="auto">
+            <marker ng-repeat="spaceDTO in spaces"
+                    position="[{{spaceDTO.space.location.lat}},{{spaceDTO.space.location.lng}}]"
+                    data="{{data[$index]}}"
+                    on-click="showData()";
+                    title="pos: {{p.pos}}"></marker>
+        </ng-map>
+    </div>
 </div>

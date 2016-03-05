@@ -9,15 +9,22 @@
     <div class="modal-body">
         <jh-alert-error></jh-alert-error>
 
-        <div
-            angular-google-maps-geocoder placeid="{{ my_place_id }}"
-            output="out"
-            placeholder="Placeholder goes here..."
-            min-length="5"
-            wait-ms="10"></div>
-        <pre>{{ out | json }}</pre>
+        Enter an address: <br/>
+        <input places-auto-complete size=80
+               ng-model="vm.address"
+               component-restrictions="{country:'es'}"
+               types="{{types}}"
+               on-place-changed="vm.placeChanged()" /> <br/>
+        <div ng-show="vm.place">
+            Address = {{vm.place.formatted_address}} <br/>
+            Location: {{vm.place.geometry.location}}<br/>
+        </div>
+        address : {{vm.address}}
+        <ng-map><marker position="{{vm.place.geometry.location}}"></marker></ng-map>
 
-        <pre>{{out.address_components[0].types[0]}}</pre>
+
+
+        <pre>Function, no guarda en base de datos: {{out.geometry.location}}</pre>
 
         <div class="form-group">
             <label for="id" translate="global.field.id">ID</label>
@@ -27,25 +34,33 @@
         <div class="form-group">
             <label class="control-label" translate="definitivoApp.location.streetAddress" for="field_streetAddress">StreetAddress</label>
             <input type="text" class="form-control" name="streetAddress" id="field_streetAddress"
-                    ng-model="location.streetAddress"
+                    ng-model="location.streetAddress=out.formatted_address"
                      />
         </div>
         <div class="form-group">
             <label class="control-label" translate="definitivoApp.location.postalCode" for="field_postalCode">PostalCode</label>
             <input type="text" class="form-control" name="postalCode" id="field_postalCode"
-                    ng-model="location.postalCode=out.address_components[5].long_name"
+                    ng-model="location.postalCode"
                      />
+            <ng-map zoom-to-include-markers="auto">
+                <marker
+                    position="[{{location.postalCode}}]"
+                    data="{{data[$index]}}"
+                    on-click="showData()";
+                    title="pos: {{p.pos}}"></marker>
+            </ng-map>
+
         </div>
         <div class="form-group">
             <label class="control-label" translate="definitivoApp.location.city" for="field_city">City</label>
             <input type="text" class="form-control" name="city" id="field_city"
-                    ng-model="location.city=out.address_components[1].long_name"
+                    ng-model="location.city"
                      />
         </div>
         <div class="form-group">
             <label class="control-label" translate="definitivoApp.location.stateProvince" for="field_stateProvince">StateProvince</label>
             <input type="text" class="form-control" name="stateProvince" id="field_stateProvince"
-                    ng-model="location.stateProvince=out.address_components[2].long_name"
+                    ng-model="location.stateProvince"
                      />
         </div>
         <div class="form-group">

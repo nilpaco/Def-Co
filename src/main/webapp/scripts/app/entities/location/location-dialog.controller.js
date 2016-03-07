@@ -50,6 +50,16 @@ angular.module('definitivoApp').controller('LocationDialogController',
             $uibModalInstance.dismiss('cancel');
         };
 
+            $scope.vm = this;
+            $scope.vm.placeChanged = function() {
+                $scope.vm.place = this.getPlace();
+                console.log('location', $scope.vm.place.geometry.location);
+                $scope.vm.map.setCenter($scope.vm.place.geometry.location);
+            }
+            NgMap.getMap().then(function(map) {
+                $scope.vm.map = map;
+            });
+
 
 
         }]);

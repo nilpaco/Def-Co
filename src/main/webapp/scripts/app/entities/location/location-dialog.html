@@ -10,7 +10,8 @@
         <jh-alert-error></jh-alert-error>
 
         Enter an address: <br/>
-        <input places-auto-complete size=80
+
+<input class="form-control" autocomplete="no" places-auto-complete size=80
                ng-model="vm.address"
                component-restrictions="{country:'es'}"
                types="{{types}}"
@@ -18,9 +19,12 @@
         <div ng-show="vm.place">
             Address = {{vm.place.formatted_address}} <br/>
             Location: {{vm.place.geometry.location}}<br/>
-        </div>
+
         address : {{vm.address}}
+        </div>
+
         <ng-map><marker position="{{vm.place.geometry.location}}"></marker></ng-map>
+
         <div class="form-group">
             <label for="id" translate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"

@@ -21,11 +21,6 @@
         </div>
         address : {{vm.address}}
         <ng-map><marker position="{{vm.place.geometry.location}}"></marker></ng-map>
-
-
-
-        <pre>Function, no guarda en base de datos: {{out.geometry.location}}</pre>
-
         <div class="form-group">
             <label for="id" translate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
@@ -34,7 +29,7 @@
         <div class="form-group">
             <label class="control-label" translate="definitivoApp.location.streetAddress" for="field_streetAddress">StreetAddress</label>
             <input type="text" class="form-control" name="streetAddress" id="field_streetAddress"
-                    ng-model="location.streetAddress=out.formatted_address"
+                    ng-model="location.streetAddress"
                      />
         </div>
         <div class="form-group">
@@ -42,14 +37,6 @@
             <input type="text" class="form-control" name="postalCode" id="field_postalCode"
                     ng-model="location.postalCode"
                      />
-            <ng-map zoom-to-include-markers="auto">
-                <marker
-                    position="[{{location.postalCode}}]"
-                    data="{{data[$index]}}"
-                    on-click="showData()";
-                    title="pos: {{p.pos}}"></marker>
-            </ng-map>
-
         </div>
         <div class="form-group">
             <label class="control-label" translate="definitivoApp.location.city" for="field_city">City</label>
@@ -86,3 +73,8 @@
         </button>
     </div>
 </form>
+<style>
+    .pac-container{
+        z-index: 2000000;
+    }
+</style>

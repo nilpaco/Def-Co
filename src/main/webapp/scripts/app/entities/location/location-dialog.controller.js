@@ -1,11 +1,27 @@
 'use strict';
 
 angular.module('definitivoApp').controller('LocationDialogController',
-    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Location',
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Location','NgMap',
         function($scope, $stateParams, $uibModalInstance, entity, Location, NgMap) {
 
+
+
         $scope.location = entity;
-        $scope.load = function(id) {
+
+
+
+
+            var vm = this;
+            vm.placeChanged = function() {
+                vm.place = this.getPlace();
+                console.log('location', vm.place.geometry.location);
+                vm.map.setCenter(vm.place.geometry.location);
+            }
+            NgMap.getMap().then(function(map) {
+                vm.map = map;
+            });
+
+            $scope.load = function(id) {
             Location.get({id : id}, function(result) {
                 $scope.location = result;
             });
@@ -33,16 +49,6 @@ angular.module('definitivoApp').controller('LocationDialogController',
         $scope.clear = function() {
             $uibModalInstance.dismiss('cancel');
         };
-
-            var vm = this;
-            vm.placeChanged = function() {
-                vm.place = this.getPlace();
-                console.log('location', vm.place.geometry.location);
-                vm.map.setCenter(vm.place.geometry.location);
-            }
-            NgMap.getMap().then(function(map) {
-                vm.map = map;
-            });
 
 
 

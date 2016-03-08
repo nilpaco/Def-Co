@@ -176,7 +176,7 @@ public class SpaceResource {
 
         Page<SpaceDTO> result = new PageImpl<SpaceDTO>(listSpaceDTO);
 
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(result, "/api/spaces");
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/spaces");
         return new ResponseEntity<>(listSpaceDTO, headers, HttpStatus.OK);
 
     }

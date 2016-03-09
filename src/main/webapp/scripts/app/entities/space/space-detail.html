@@ -1,8 +1,14 @@
 
+
 <div>
+    <h2 class="paper-font-title">Envia un mensaje</h2>
+    <form ng-submit="addMessage()">
+        <input class="btn btn-info" type="submit" />
+    </form>
     <h2><span translate="definitivoApp.space.detail.title">Space</span> {{space.id}}</h2>
     <div class="table-responsive">
         <table class="table table-striped">
+
             <thead>
             <tr>
                 <th translate="entity.detail.field">Field</th>
@@ -24,6 +30,8 @@
                 </td>
                 <td>
                     <span class="form-control-static">{{space.description}}</span>
+                    <input class="form-control" ng-model="text2" type="text"/>
+
                 </td>
             </tr>
             <tr>

@@ -44,7 +44,11 @@ angular.module('definitivoApp')
                     }],
                     entity: ['$stateParams', 'Space', function($stateParams, Space) {
                         return Space.get({id : $stateParams.id});
+                    }],
+                    messages: ['$stateParams', 'Space', function($stateParams, Space) {
+                        return Space.checkMessages({id : $stateParams.id});
                     }]
+
                 }
             })
             .state('space.new', {

@@ -14,11 +14,11 @@ entity Service {
 entity Image {
   id Long,
   image ImageBlob
-} 
+}
 entity Message {
   id Long,
   text String,
-  time LocalDate
+  time ZonedDateTime
 }
 entity Favorite {
   id Long,
@@ -34,7 +34,7 @@ entity Space {
 entity Review {
   id Long,
   text String,
-  time LocalDate
+  time ZonedDateTime
 }
 relationship OneToOne {
   Space{location} to Location

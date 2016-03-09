@@ -2,10 +2,16 @@ package com.definitivo.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.definitivo.domain.Favorite;
+import com.definitivo.domain.Message;
 import com.definitivo.domain.Space;
+import com.definitivo.domain.User;
 import com.definitivo.repository.FavoriteRepository;
+import com.definitivo.repository.MessageRepository;
 import com.definitivo.repository.SpaceRepository;
+import com.definitivo.repository.UserRepository;
 import com.definitivo.repository.search.SpaceSearchRepository;
+import com.definitivo.security.SecurityUtils;
+import com.definitivo.web.rest.dto.MessageDTO;
 import com.definitivo.web.rest.dto.SpaceDTO;
 import com.definitivo.web.rest.util.HeaderUtil;
 import com.definitivo.web.rest.util.PaginationUtil;
@@ -18,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -26,6 +33,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -48,6 +56,12 @@ public class SpaceResource {
 
     @Inject
     private FavoriteRepository favoriteRepository;
+
+    @Inject
+    private MessageRepository messageRepository;
+
+    @Inject
+    private UserRepository userRepository;
 
     /**
      * POST  /spaces -> Create a new space.
@@ -179,5 +193,65 @@ public class SpaceResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/spaces");
         return new ResponseEntity<>(listSpaceDTO, headers, HttpStatus.OK);
 
+    }
+
+    @RequestMapping(value = "/spaces/{id}/messages",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Message> addMessageToSpace(@RequestBody MessageDTO messageDTO, @PathVariable Long id) throws URISyntaxException {
+        log.debug("REST request to save Message : {}", messageDTO);
+
+        Space space = spaceRepository.findOne(id);
+
+
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+
+        Message message = new Message();
+
+        message.setText(messageDTO.getText());
+        message.setUser(user);
+        message.setSpace(space);
+
+        Message result = messageRepository.save(message);
+
+        return ResponseEntity.created(new URI("/api/spaces/"+id+"/messages/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert("message", result.getId().toString()))
+            .body(result);
+    }
+
+
+    @Transactional
+    @RequestMapping(value = "/spaces/{id}/messages",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Set<Message>> getMessages(@PathVariable Long id) {
+        log.debug("REST request to get Messages: {}", id);
+        Space space = spaceRepository.findOne(id);
+
+        if(space==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(space.getMessages(), HttpStatus.OK);
+    }
+
+    @Transactional
+    @RequestMapping(value = "/spaces/{id}/usermessages",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<Message>> findByUserIsCurrentUserAndSpace(@PathVariable Long id) {
+        log.debug("REST request to get Messages from User in Space: {}", id);
+        Space space = spaceRepository.findOne(id);
+
+        List<Message> messages = messageRepository.findByUserIsCurrentUserAndSpace(id);
+
+        if(space==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 }

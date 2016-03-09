@@ -16,7 +16,8 @@ angular.module('definitivoApp')
                 method: 'GET',
                 isArray: true,
                 url: 'api/spaces/userliked'
-            }
-
+            },
+            'addMessage': { method: 'POST', isArray: false, url: 'api/spaces/:id/messages'},
+            'checkMessages': {method: 'GET', isArray: true, url: 'api/spaces/:id/usermessages'}
         });
     });

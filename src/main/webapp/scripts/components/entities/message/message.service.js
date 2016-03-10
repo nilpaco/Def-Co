@@ -25,6 +25,9 @@ angular.module('definitivoApp')
                     data.time = DateUtils.convertLocaleDateToServer(data.time);
                     return angular.toJson(data);
                 }
-            }
+            },
+            'getAllMessagesBySpace': {method: 'GET', isArray: true, url: 'api/spaces/:id/usermessages'},
+            'messagesBySpace': {method: 'GET', isArray: false, url: 'api/messagesBySpace'}
+
         });
     });

@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -34,13 +33,13 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class MessageResource {
 
     private final Logger log = LoggerFactory.getLogger(MessageResource.class);
-        
+
     @Inject
     private MessageRepository messageRepository;
-    
+
     @Inject
     private MessageSearchRepository messageSearchRepository;
-    
+
     /**
      * POST  /messages -> Create a new message.
      */
@@ -89,7 +88,7 @@ public class MessageResource {
     public ResponseEntity<List<Message>> getAllMessages(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Messages");
-        Page<Message> page = messageRepository.findAll(pageable); 
+        Page<Message> page = messageRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/messages");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -139,4 +138,37 @@ public class MessageResource {
             .stream(messageSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
+
+    /**
+     * GET  /mensajes -> get all the mensajes.
+     */
+    @RequestMapping(value = "/messagesBySpace",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Map<String, List<Message>>> getAllMensajesBySpace(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Mensajes");
+        Page<Message> page = messageRepository.findByUserIsCurrentUser(pageable);
+
+        Map<String, List<Message>> messagesBySpace = new HashMap<>();
+
+
+        for (Message mensaje : page.getContent()){
+            if (messagesBySpace.containsKey(mensaje.getSpace().getName())){
+                List<Message> currentMessages = messagesBySpace.get(mensaje.getSpace().getName());
+                currentMessages.add(mensaje);
+            }else {
+                List<Message> currentMessages = new ArrayList<>();
+                currentMessages.add(mensaje);
+                messagesBySpace.put(mensaje.getSpace().getName(), currentMessages);
+
+            }
+        }
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mensajes");
+        return new ResponseEntity<>(messagesBySpace, headers, HttpStatus.OK);
+
+    }
+
 }

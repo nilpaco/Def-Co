@@ -43,4 +43,14 @@ angular.module('definitivoApp')
                 id: null
             };
         };
+
+        $scope.hashmap=[];
+        $scope.loadAll2 = function (){
+            Message.messagesBySpace(function (result) {
+                $scope.hashmap = result;
+            });
+        }
+        $scope.loadAll2();
+
+
     });
